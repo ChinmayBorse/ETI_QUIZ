@@ -1072,8 +1072,30 @@ function goHome() {
 // ══════════════════════════════════════════════
 function startQuiz(unit) {
   currentUnit = unit;
-  questions = [...unit.questions];
-  // Shuffle questions
+  
+  // 1. Deep copy and dynamically shuffle OPTIONS for each question
+  questions = unit.questions.map(q => {
+    // Map options to keep track of which one is the correct text
+    let optsData = q.opts.map((text, index) => ({
+      text: text,
+      isCorrect: index === q.ans
+    }));
+    
+    // Shuffle the options array (A, B, C, D)
+    for (let i = optsData.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [optsData[i], optsData[j]] = [optsData[j], optsData[i]];
+    }
+    
+    // Return the formatted question with the newly shuffled options and new correct answer index
+    return {
+      q: q.q,
+      opts: optsData.map(o => o.text),
+      ans: optsData.findIndex(o => o.isCorrect)
+    };
+  });
+
+  // 2. Shuffle QUESTIONS so the quiz is in a different order each time
   for (let i = questions.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [questions[i], questions[j]] = [questions[j], questions[i]];
