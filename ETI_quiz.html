@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>316313 – Emerging Trends MCQ Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a26;
+    --card: #16161f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #888899;
+    --u1: #6C63FF;
+    --u2: #00C896;
+    --u3: #FF6B35;
+    --u4: #E91E8C;
+    --u5: #FF4444;
+    --correct: #00e676;
+    --wrong: #ff5252;
+    --accent: #fff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BG ── */
+  body::before {
+    content:'';
+    position: fixed; inset:0;
+    background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index:0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: relative; z-index:10;
+    padding: 40px 20px 20px;
+    text-align: center;
+  }
+  .header h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .header h1 span {
+    background: linear-gradient(135deg, #6C63FF, #00C896, #FF6B35, #E91E8C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── HOME SCREEN ── */
+  #home-screen {
+    position: relative; z-index:5;
+    max-width: 900px; margin: 0 auto;
+    padding: 20px;
+  }
+  .home-title {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-family: 'Space Mono', monospace;
+  }
+  .unit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .unit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0; height:3px;
+    background: var(--uc);
+    border-radius: 16px 16px 0 0;
+  }
+  .unit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    border-color: var(--uc);
+  }
+  .unit-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; }
+  .unit-card h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .unit-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .unit-badge {
+    display: inline-block;
+    background: var(--uc);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── QUIZ SCREEN ── */
+  #quiz-screen {
+    display: none;
+    position: relative; z-index:5;
+    max-width: 760px; margin: 0 auto;
+    padding: 16px;
+  }
+  .quiz-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .back-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: var(--bg3); }
+  .quiz-unit-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--muted);
+    flex: 1;
+  }
+  .progress-bar-wrap {
+    background: var(--bg3);
+    border-radius: 4px;
+    height: 6px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--uc, #6C63FF);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .q-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .score-live {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--uc, #6C63FF);
+    margin-bottom: 16px;
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .question-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0; height:2px;
+    background: var(--uc, #6C63FF);
+    border-radius: 16px 16px 0 0;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 22px;
+    color: var(--text);
+  }
+  .options-list {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .option-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 13px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-family: 'Sora', sans-serif;
+    text-align: left;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    line-height: 1.4;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: var(--bg);
+    border-color: var(--uc, #6C63FF);
+    transform: translateX(3px);
+  }
+  .option-btn:disabled { cursor: default; }
+  .option-btn.correct {
+    background: rgba(0,230,118,0.12);
+    border-color: var(--correct);
+    color: var(--correct);
+  }
+  .option-btn.wrong {
+    background: rgba(255,82,82,0.12);
+    border-color: var(--wrong);
+    color: var(--wrong);
+  }
+  .opt-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 22px;
+    padding-top: 1px;
+  }
+  .feedback-box {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback-box.correct {
+    background: rgba(0,230,118,0.12);
+    border: 1px solid rgba(0,230,118,0.3);
+    color: var(--correct);
+    display: block;
+  }
+  .feedback-box.wrong {
+    background: rgba(255,82,82,0.12);
+    border: 1px solid rgba(255,82,82,0.3);
+    color: var(--wrong);
+    display: block;
+  }
+
+  .next-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: var(--uc, #6C63FF);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    display: none;
+    margin-top: 4px;
+  }
+  .next-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── RESULTS SCREEN ── */
+  #results-screen {
+    display: none;
+    position: relative; z-index:5;
+    max-width: 760px; margin: 0 auto;
+    padding: 20px;
+  }
+  .results-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .results-card::before {
+    content:'';
+    position: absolute;
+    top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg, var(--uc, #6C63FF), transparent);
+  }
+  .results-emoji { font-size: 4rem; margin-bottom: 16px; }
+  .results-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .results-subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 28px; }
+  .score-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--uc, #6C63FF);
+    margin-bottom: 4px;
+  }
+  .score-label { color: var(--muted); font-size: 0.8rem; margin-bottom: 28px; }
+  .score-breakdown {
+    display: flex; justify-content: center; gap: 32px;
+    margin-bottom: 32px;
+  }
+  .sb-item { text-align: center; }
+  .sb-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .sb-label { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .sb-item.correct .sb-num { color: var(--correct); }
+  .sb-item.wrong .sb-num { color: var(--wrong); }
+  .grade-badge {
+    display: inline-block;
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 28px;
+  }
+  .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .action-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .action-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+  .action-btn.primary { background: var(--uc, #6C63FF); color: #fff; }
+  .action-btn.secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+
+  /* ── REVIEW SECTION ── */
+  .review-section { margin-top: 28px; text-align: left; }
+  .review-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .review-item {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--wrong);
+  }
+  .review-item.correct-item { border-left-color: var(--correct); }
+  .review-q {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .review-your {
+    font-size: 0.75rem;
+    color: var(--wrong);
+    margin-bottom: 2px;
+  }
+  .review-correct {
+    font-size: 0.75rem;
+    color: var(--correct);
+  }
+
+  /* ── QUESTION NUMBER INDICATORS ── */
+  .q-nav {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    margin-bottom: 16px;
+  }
+  .q-dot {
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: background 0.2s;
+  }
+  .q-dot.answered-correct { background: rgba(0,230,118,0.25); border-color: var(--correct); color: var(--correct); }
+  .q-dot.answered-wrong { background: rgba(255,82,82,0.2); border-color: var(--wrong); color: var(--wrong); }
+
+  @media (max-width: 600px) {
+    .question-card { padding: 20px 16px; }
+    .results-card { padding: 24px 16px; }
+    .score-display { font-size: 2.5rem; }
+    .header h1 { font-size: 1.2rem; }
+    .q-nav { max-height: 80px; overflow: hidden; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 <span>Emerging Trends MCQ Quiz</span></h1>
+  <p>316313 · Computer Engineering · Semester VI · K-Scheme</p>
+</div>
+
+<!-- HOME -->
+<div id="home-screen">
+  <p class="home-title">// Select a unit to begin →</p>
+  <div class="unit-grid" id="unit-grid"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-screen">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="quiz-unit-title" id="quiz-unit-label">Unit 1</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <div class="q-nav" id="q-nav"></div>
+  <div class="q-counter" id="q-counter">Question 1 of 100</div>
+  <div class="score-live" id="score-live">Score: 0 / 0</div>
+  <div class="question-card">
+    <div class="q-text" id="q-text"></div>
+    <div class="options-list" id="options-list"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+  </div>
+  <button class="next-btn" id="next-btn" onclick="nextQuestion()">NEXT QUESTION →</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results-screen">
+  <div class="results-card" id="results-card">
+    <div class="results-emoji" id="results-emoji">🎯</div>
+    <div class="results-title" id="results-title">Quiz Complete!</div>
+    <div class="results-subtitle" id="results-subtitle">Unit 1: Introduction to AI and ML</div>
+    <div class="score-display" id="score-display">85%</div>
+    <div class="score-label">Overall Score</div>
+    <div class="score-breakdown">
+      <div class="sb-item correct"><div class="sb-num" id="res-correct">85</div><div class="sb-label">Correct ✓</div></div>
+      <div class="sb-item"><div class="sb-num" id="res-total">100</div><div class="sb-label">Total</div></div>
+      <div class="sb-item wrong"><div class="sb-num" id="res-wrong">15</div><div class="sb-label">Wrong ✗</div></div>
+    </div>
+    <div class="grade-badge" id="grade-badge">Grade: A</div>
+    <div class="results-actions">
+      <button class="action-btn primary" onclick="retryQuiz()">↺ Retry Quiz</button>
+      <button class="action-btn secondary" onclick="goHome()">⌂ All Units</button>
+    </div>
+    <div class="review-section" id="review-section"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// QUIZ DATA (inline)
+// ══════════════════════════════════════════════
+const UNITS = [
+  {
+    id:1, title:"Unit 1: Introduction to AI and ML", color:"#6C63FF", icon:"🤖",
+    questions: [
+      {q:"What does AI stand for?",opts:["Automated Intelligence","Artificial Intelligence","Advanced Integration","Autonomous Interface"],ans:1},
+      {q:"Which of the following is NOT a key application of AI?",opts:["Self-driving cars","Medical diagnosis","Voice recognition","Manual data entry"],ans:3},
+      {q:"AI enables computer systems to perceive their environment and:",opts:["Only store data","Take actions to achieve specific goals","Only display output","Replace hardware"],ans:1},
+      {q:"Which is a subset of AI that enables machines to learn from data?",opts:["Robotics","Expert Systems","Machine Learning","Computer Vision"],ans:2},
+      {q:"Deep Learning is a subset of:",opts:["Robotics","NLP","Machine Learning","Expert Systems"],ans:2},
+      {q:"NLP stands for:",opts:["Neural Language Processing","Natural Language Programming","Natural Language Processing","Network Learning Protocol"],ans:2},
+      {q:"Computer Vision enables machines to:",opts:["Understand human language","See and process images or videos","Control robots","Predict stock prices"],ans:1},
+      {q:"Which AI application combines AI with mechanical systems?",opts:["NLP","Robotics","Expert Systems","Deep Learning"],ans:1},
+      {q:"Expert Systems use:",opts:["Neural networks only","If-then rules and knowledge bases","Reinforcement learning","GANs"],ans:1},
+      {q:"Sophia is an example of a:",opts:["Expert System","NLP tool","Humanoid robot","Deep learning model"],ans:2},
+      {q:"Which is NOT a career opportunity in AI scope?",opts:["Machine Learning Engineer","Data Scientist","AI Ethics Analyst","Network Administrator"],ans:3},
+      {q:"In finance, AI is used for:",opts:["Manual bookkeeping","Fraud detection and automated trading","Cooking automation","Weather forecasting"],ans:1},
+      {q:"AI in agriculture helps with:",opts:["Urban planning only","Crop health monitoring and precision farming","Only livestock management","Building roads"],ans:1},
+      {q:"Which sector uses AI for personalized learning platforms?",opts:["Manufacturing","Retail","Education","Transportation"],ans:2},
+      {q:"Recommendation systems on streaming platforms are an example of AI in:",opts:["Healthcare","Entertainment","Manufacturing","Agriculture"],ans:1},
+      {q:"Narrow AI is also called:",opts:["Strong AI","Weak AI","Super AI","General AI"],ans:1},
+      {q:"Artificial General Intelligence (AGI) possesses:",opts:["Only narrow task ability","Human-like intelligence for any intellectual task","Only image recognition","Only text processing"],ans:1},
+      {q:"Artificial Superintelligence (ASI) is currently:",opts:["Widely deployed","A real-world system","Hypothetical","Used in hospitals"],ans:2},
+      {q:"Reactive Machines:",opts:["Use past experiences","Have no memory and react to the present","Understand emotions","Are self-aware"],ans:1},
+      {q:"Limited Memory AI:",opts:["Cannot make decisions","Stores and uses past data for better decisions","Has no sensors","Is used only in gaming"],ans:1},
+      {q:"Theory of Mind AI can:",opts:["Only react to current situations","Understand beliefs and emotions of others","Replace all human workers","Run on basic hardware"],ans:1},
+      {q:"Self-Aware AI is currently:",opts:["Used in smartphones","Hypothetical","Deployed in hospitals","Available open-source"],ans:1},
+      {q:"Which virtual assistant is developed by Amazon?",opts:["Siri","Alexa","Google Assistant","Cortana"],ans:1},
+      {q:"AI in healthcare helps in:",opts:["Manual surgery only","Medical imaging analysis and drug discovery","Physical therapy only","Building hospitals"],ans:1},
+      {q:"Autonomous vehicles primarily use which AI area?",opts:["NLP","Computer Vision and ML","Expert Systems only","Robotics only"],ans:1},
+      {q:"Which AI application automates contract analysis in the legal field?",opts:["Healthcare AI","Legal AI","Finance AI","Retail AI"],ans:1},
+      {q:"Machine Learning is a field of AI that enables systems to learn from:",opts:["Rules only","Data","Hardware","Human supervision always"],ans:1},
+      {q:"In ML, Self-Improvement means:",opts:["Manual updates by developers","Systems improve with more data and repeated use","Changing hardware","Buying new licenses"],ans:1},
+      {q:"Supervised Learning trains on:",opts:["Unlabeled data","Labeled data","Random data","No data"],ans:1},
+      {q:"Predicting house prices is an example of:",opts:["Classification","Clustering","Regression (Supervised Learning)","Reinforcement Learning"],ans:2},
+      {q:"Customer segmentation is an example of:",opts:["Supervised Learning","Unsupervised Learning","Reinforcement Learning","Deep Learning"],ans:1},
+      {q:"Reinforcement Learning uses:",opts:["Labeled data","Rewards and penalties","Only images","Text data only"],ans:1},
+      {q:"AlphaGo uses which type of ML?",opts:["Supervised Learning","Unsupervised Learning","Reinforcement Learning","Semi-supervised Learning"],ans:2},
+      {q:"Semi-supervised Learning uses:",opts:["Only labeled data","Only unlabeled data","A mix of labeled and unlabeled data","Only reward signals"],ans:2},
+      {q:"Semi-supervised Learning is useful when labeled data is:",opts:["Abundant","Cheap","Expensive or time-consuming","Irrelevant"],ans:2},
+      {q:"Deep Learning is inspired by the structure and function of:",opts:["The human heart","The human brain","Computer chips","The internet"],ans:1},
+      {q:"In deep learning, early layers typically detect:",opts:["Objects","Shapes","Edges","Faces"],ans:2},
+      {q:"Which hardware is typically used for deep learning?",opts:["CPU only","GPU","HDD","RAM only"],ans:1},
+      {q:"Deep learning excels at:",opts:["Structured tabular data only","Unstructured data like images and speech","Rule-based tasks","Manual data entry"],ans:1},
+      {q:"Backpropagation in deep learning adjusts:",opts:["The number of layers","Weights and biases to reduce error","Only the input data","Only the output layer"],ans:1},
+      {q:"Facial Recognition is a deep learning application in which area?",opts:["NLP","Computer Vision","Autonomous Systems","Finance"],ans:1},
+      {q:"DALL·E is used for:",opts:["Text generation","Image generation","Music generation","Video editing"],ans:1},
+      {q:"ChatGPT is primarily a deep learning application in which area?",opts:["Computer Vision","Speech processing","NLP","Autonomous vehicles"],ans:2},
+      {q:"A Neural Network is a computational model inspired by:",opts:["Electrical circuits","The human brain","Database schemas","Spreadsheets"],ans:1},
+      {q:"The Input Layer in a neural network:",opts:["Produces final output","Receives raw data","Performs computations","Stores weights"],ans:1},
+      {q:"Hidden Layers in a neural network:",opts:["Receive raw input","Produce final predictions","Perform computations with weights and biases","Connect to the internet"],ans:2},
+      {q:"The 'deep' in deep learning refers to:",opts:["Large datasets","Many hidden layers","Fast processors","High accuracy"],ans:1},
+      {q:"Forward Propagation means:",opts:["Data flows backward to adjust weights","Data flows from input to output to make predictions","Data is deleted","Network is reset"],ans:1},
+      {q:"Which function is used to calculate the error in neural networks?",opts:["Activation function","Loss function","Gradient function","Bias function"],ans:1},
+      {q:"Which is the broadest concept among AI, ML, and DL?",opts:["Machine Learning","Deep Learning","Artificial Intelligence","NLP"],ans:2},
+      {q:"Which handles massive unstructured data best?",opts:["AI","ML","DL","Expert Systems"],ans:2},
+      {q:"Email spam filters are primarily an example of:",opts:["Deep Learning","Machine Learning","Self-Aware AI","Quantum Computing"],ans:1},
+      {q:"Feature extraction in DL is:",opts:["Manual","Partially automated","Automatic (network learns features)","Done by humans only"],ans:2},
+      {q:"Generative AI focuses on:",opts:["Analyzing data only","Creating new content like text, images, and music","Storing data","Hardware optimization"],ans:1},
+      {q:"GANs stands for:",opts:["General Artificial Networks","Generative Adversarial Networks","Gradient Adaptive Neurons","Global AI Nodes"],ans:1},
+      {q:"Diffusion Models are used for:",opts:["Text translation","High-quality image generation","Database management","OS optimization"],ans:1},
+      {q:"VAEs stands for:",opts:["Virtual AI Engines","Variational Autoencoders","Visual Attention Encoders","Variable AI Estimators"],ans:1},
+      {q:"Transformers were introduced in:",opts:["2012","2017","2020","2015"],ans:1},
+      {q:"Transformers use a mechanism called:",opts:["Backpropagation","Self-attention","Gradient descent","Convolution"],ans:1},
+      {q:"Multi-Head Attention runs self-attention:",opts:["Once","In parallel multiple times","Sequentially only","After output is generated"],ans:1},
+      {q:"Positional Encoding in Transformers provides:",opts:["Word meaning","Word order information","Word frequency","Grammatical rules"],ans:1},
+      {q:"In Transformers, the encoder processes:",opts:["Output sequence","Input sequence","Both simultaneously","Neither"],ans:1},
+      {q:"GPT models are primarily used for:",opts:["Image generation","Text generation","Music generation","Video editing"],ans:1},
+      {q:"DALL-E and Midjourney are used for:",opts:["Text generation","Code generation","Image generation from text","Speech recognition"],ans:2},
+      {q:"3D Model Generation has applications in:",opts:["Only gaming","Gaming, design, and virtual reality","Only architecture","Only medicine"],ans:1},
+      {q:"Vibe coding is an AI-powered practice where humans guide LLMs to:",opts:["Only review code","Generate, refine, and debug code conversationally","Only test hardware","Only document code"],ans:1},
+      {q:"In vibe coding, the AI acts as a:",opts:["Replacement for the developer","Co-pilot handling intricate code details","Only a code reviewer","Only a debugger"],ans:1},
+      {q:"Which platform is an AI-first code editor for vibe coding?",opts:["GitHub","Cursor","VS Code","Eclipse"],ans:1},
+      {q:"Replit is an example of:",opts:["A blockchain platform","An online coding platform with AI tools","A database tool","A cloud storage service"],ans:1},
+      {q:"Agentic AI refers to AI systems that can:",opts:["Only answer prompts","Independently make decisions and execute multi-step tasks","Only recognize images","Only generate text"],ans:1},
+      {q:"Which is NOT a key characteristic of Agentic AI?",opts:["Autonomy","Goal-Oriented Behavior","Requires constant human oversight","Tool Use and Integration"],ans:2},
+      {q:"Agentic AI differs from traditional Generative AI in that it is:",opts:["Reactive only","Proactive and self-directed","Slower","Less accurate"],ans:1},
+      {q:"Multi-Agent Code Collaborators like MetaGPT are used in:",opts:["Healthcare","Software Development","Agriculture","Retail"],ans:1},
+      {q:"Research Assistants in Agentic AI belong to which use case category?",opts:["Business Process Automation","Data & Knowledge Work","Healthcare","E-Commerce"],ans:1},
+      {q:"LLM stands for:",opts:["Large Logic Model","Large Language Model","Linear Learning Module","Layered Language Mechanism"],ans:1},
+      {q:"LLMs are primarily trained on:",opts:["Images and videos","Billions of words from books and websites","Hardware signals","Database records only"],ans:1},
+      {q:"GPT-4 is developed by:",opts:["Google","Meta","OpenAI","Anthropic"],ans:2},
+      {q:"Claude 3 is developed by:",opts:["OpenAI","Google","Meta","Anthropic"],ans:3},
+      {q:"Med-PaLM is an LLM specialized for:",opts:["Financial data","Programming","Medical knowledge","Multilingual tasks"],ans:2},
+      {q:"LLaMA 2 is an example of which type of LLM?",opts:["Proprietary","Open-source","Specialized","Closed-source"],ans:1},
+      {q:"Emergent abilities in LLMs refer to:",opts:["Planned capabilities","Performing tasks not explicitly trained for","Hardware requirements","Slower inference"],ans:1},
+      {q:"SLM stands for:",opts:["Super Language Model","Small Language Model","Synchronized Learning Module","Standard Logic Machine"],ans:1},
+      {q:"SLMs are ideal for:",opts:["Large-scale cloud deployments only","Resource-constrained devices like smartphones","Only enterprise servers","Only research labs"],ans:1},
+      {q:"Phi-2 is an SLM developed by:",opts:["Google","Meta","Microsoft","OpenAI"],ans:2},
+      {q:"An advantage of SLMs over LLMs is:",opts:["Always higher accuracy","On-device and offline use","More parameters","Handles all languages equally"],ans:1},
+      {q:"AI Reasoning Models use 'chain of thought' to:",opts:["Generate images","Break down problems into steps before answering","Only translate text","Store data"],ans:1},
+      {q:"DeepSeek-R1 is an example of:",opts:["An image generation model","An open-source reasoning model","A cloud database","A networking tool"],ans:1},
+      {q:"Claude 3 Opus is designed for:",opts:["Image processing","Analytical and step-by-step reasoning tasks","Only gaming","Only coding"],ans:1},
+      {q:"Adversarial Attacks add tiny noise to:",opts:["Training data","Input data to fool the model","Network hardware","Output results"],ans:1},
+      {q:"Poisoning Attacks corrupt:",opts:["The output layer","Training data","The inference engine","The user interface"],ans:1},
+      {q:"Deepfakes are generated using:",opts:["Supervised Learning","GANs","Decision Trees","Regression models"],ans:1},
+      {q:"Model Tampering involves:",opts:["Modifying training data","Directly altering the AI model's parameters","Phishing users","Attacking network hardware"],ans:1},
+      {q:"Privacy Attacks aim to:",opts:["Destroy the model","Extract sensitive information about training data","Crash servers","Send phishing emails"],ans:1},
+      {q:"MFA stands for:",opts:["Multi-Factor Authentication","Machine Function Analysis","Managed File Access","Multi-Frame Algorithm"],ans:0},
+      {q:"AI-driven phishing uses AI to create:",opts:["Generic emails","Highly personalized and convincing phishing attempts","Only SMS messages","Only voice calls"],ans:1},
+      {q:"Evasion Attacks cause the AI model to:",opts:["Crash completely","Misclassify input without visible changes","Delete training data","Slow down inference"],ans:1},
+      {q:"Zero Trust strategy in digital security means:",opts:["Trust all users inside the network","Assume no device or user is trustworthy by default","Only trust verified devices once","Disable all firewalls"],ans:1},
+      {q:"Which Microsoft course is mentioned for AI for Beginners?",opts:["Coursera AI","microsoft.github.io/AI-For-Beginners","Azure AI Fundamentals","GitHub Copilot Docs"],ans:1},
+      {q:"Which platform provides a Machine Learning Crash Course?",opts:["Meta AI","Microsoft Learn","Google Developers","IBM Watson"],ans:2},
+      {q:"AI in manufacturing is used for:",opts:["Only HR management","Predictive maintenance, quality control, and process automation","Only accounting","Only sales forecasting"],ans:1},
+      {q:"Content Creation using Generative AI includes:",opts:["Only text","Text, art, music, videos, and content summarization","Only images","Only code"],ans:1},
+    ]
+  },
+  {
+    id:2, title:"Unit 2: Internet of Things", color:"#00C896", icon:"🌐",
+    questions: [
+      {q:"IoT stands for:",opts:["Internet of Technology","Internet of Things","Interface of Technology","Integrated Object Technology"],ans:1},
+      {q:"IoT enables real-time communication without:",opts:["Power supply","Direct human intervention","Network connectivity","Sensors"],ans:1},
+      {q:"Which is the fundamental characteristic of IoT?",opts:["Security","Connectivity","Automation","Scalability"],ans:1},
+      {q:"IoT devices are equipped with sensors that collect data such as:",opts:["Only temperature","Temperature, humidity, motion, location","Only motion","Only GPS data"],ans:1},
+      {q:"Edge Computing in IoT processes data:",opts:["Only in central cloud servers","Closer to where data is generated","Only in datacenters","Only in mobile devices"],ans:1},
+      {q:"Identity of Things means each IoT device is given:",opts:["A physical address","A unique identity like an IP address","A brand name","A serial barcode only"],ans:1},
+      {q:"Real-Time Operation in IoT is critical for:",opts:["Only entertainment apps","Smart traffic management and healthcare monitoring","Only games","Social media only"],ans:1},
+      {q:"Which IoT feature ensures devices from different manufacturers work together?",opts:["Scalability","Interoperability","Security","Dynamic Nature"],ans:1},
+      {q:"IoT's Dynamic Nature means devices can:",opts:["Only collect data","Self-adapt to changing conditions","Only process data","Only store data"],ans:1},
+      {q:"Active Engagement in IoT refers to:",opts:["Passive data collection only","Actively sharing information to achieve a common goal","Only reactive responses","Only human interaction"],ans:1},
+      {q:"User Interface in IoT allows users to monitor devices via:",opts:["Only physical buttons","Mobile apps, dashboards, or web portals","Only landline calls","Only manual logs"],ans:1},
+      {q:"Smart thermostat (e.g., Nest) is an application of IoT in:",opts:["Smart Cities","Smart Homes","Industrial IoT","Healthcare"],ans:1},
+      {q:"Predictive maintenance is a key benefit of which IoT application?",opts:["Smart Homes","Industrial IoT (IIoT)","Agriculture","Retail"],ans:1},
+      {q:"IoMT stands for:",opts:["Internet of Multiple Things","Internet of Medical Things","Integrated of Medical Technology","Internet of Machine Tools"],ans:1},
+      {q:"Smart shelves and inventory management are IoT applications in:",opts:["Agriculture","Retail","Healthcare","Transportation"],ans:1},
+      {q:"HVAC automation is a feature of:",opts:["Smart Homes","Smart Buildings","Smart Cities","Healthcare IoT"],ans:1},
+      {q:"Smart meters and grid automation are examples of:",opts:["Smart Transportation","Energy Management IoT","Smart Cities","Industrial IoT"],ans:1},
+      {q:"Which is an advantage of IoT?",opts:["High initial cost","Automation and Control","Security Risks","Data Overload"],ans:1},
+      {q:"Cost Savings in IoT comes from:",opts:["Buying more sensors","Predictive maintenance reducing downtime","More cloud storage","Increasing hardware"],ans:1},
+      {q:"IoT works seamlessly with:",opts:["Only older technology","AI, Big Data, and Cloud Computing","Only physical sensors","Only Bluetooth"],ans:1},
+      {q:"Which is a limitation of IoT?",opts:["Automation","Enhanced Decision-Making","Security Risks","Scalability"],ans:2},
+      {q:"Data Overload in IoT refers to:",opts:["Too few sensors","Managing massive amounts of sensor data","Low bandwidth usage","Limited connectivity"],ans:1},
+      {q:"IoT systems losing functionality without stable connectivity is called:",opts:["Security Risk","Dependence on Internet","High Initial Cost","Ethical Issue"],ans:1},
+      {q:"Signal Conditioning in IoT prepares sensor signals by:",opts:["Only storing them","Amplifying, filtering, and converting to digital form","Only visualizing data","Only encrypting data"],ans:1},
+      {q:"Arduino Uno is an example of which type of IoT controller?",opts:["Processor","Microcontroller (MCU)","PLC","SoC"],ans:1},
+      {q:"Raspberry Pi is an example of which type of IoT controller?",opts:["Microcontroller","Processor supporting complex OS","SoC","Edge Controller"],ans:1},
+      {q:"ESP8266 and ESP32 are examples of:",opts:["PLCs","Microcontrollers (MCU)","System-on-Chip (SoC)","Edge Controllers"],ans:2},
+      {q:"An IoT Gateway acts as a bridge between:",opts:["Sensors and actuators only","IoT devices and the cloud/data center","Only cloud servers","Only mobile devices"],ans:1},
+      {q:"Wireless IoT Gateways communicate using:",opts:["Only Modbus","Wi-Fi, Zigbee, LoRa, NB-IoT, Bluetooth","Only Ethernet","Only RS232"],ans:1},
+      {q:"Cellular IoT Gateways use:",opts:["Only Wi-Fi","3G/4G/5G networks","Only Bluetooth","Only satellite"],ans:1},
+      {q:"A Cloud server in IoT provides:",opts:["Only local storage","Data storage, processing, analytics, and device management","Only physical devices","Only security"],ans:1},
+      {q:"OTA in IoT device management stands for:",opts:["Over-The-Area","Over-The-Air","Online Transfer Agent","Offline Transfer Automation"],ans:1},
+      {q:"Smartphones, smartwatches, and voice assistants in IoT are called:",opts:["IoT Gateways","User Devices","IoT Sensors","Cloud Servers"],ans:1},
+      {q:"The Perception Layer is responsible for:",opts:["Data transmission","Collecting raw data from the physical environment","User interface","Cloud storage"],ans:1},
+      {q:"The Network Layer ensures:",opts:["Raw data collection","Secure and reliable data transmission","Data visualization","Device manufacturing"],ans:1},
+      {q:"AWS IoT, Azure IoT, and Google Cloud IoT are part of which layer?",opts:["Perception Layer","Network Layer","Data Processing Layer","Application Layer"],ans:2},
+      {q:"User Interfaces, mobile apps, and dashboards belong to which IoT layer?",opts:["Perception Layer","Network Layer","Application Layer","Processing Layer"],ans:2},
+      {q:"RTDs (Resistance Temperature Detectors) work by:",opts:["Emitting infrared light","Changing electrical resistance with temperature","Using ultrasonic waves","Converting light to voltage"],ans:1},
+      {q:"Thermocouples generate voltage based on:",opts:["Resistance change","Seebeck effect","Capacitance change","Optical properties"],ans:1},
+      {q:"Humidity sensors are also known as:",opts:["Thermistors","Hygrometers","Barometers","Anemometers"],ans:1},
+      {q:"PIR sensors detect:",opts:["Motion via sound waves","Changes in infrared heat radiation","Changes in air pressure","Optical light intensity"],ans:1},
+      {q:"Ultrasonic sensors measure distance by:",opts:["Emitting light","Measuring time for sound waves to bounce back","Using infrared radiation","Detecting magnetic fields"],ans:1},
+      {q:"MQ-2 sensor is used for detecting:",opts:["Humidity","Flammable gas and smoke","Temperature","Motion"],ans:1},
+      {q:"CMOS sensors are popular in IoT devices because of:",opts:["Oldest technology","Lower cost and energy efficiency","Use of CCD technology","Only industrial use"],ans:1},
+      {q:"LDR stands for:",opts:["Light-Dependent Resistor","Large Data Router","Linear Drive Regulator","Low Decibel Receiver"],ans:0},
+      {q:"IR sensors detect which type of radiation?",opts:["Ultraviolet","X-ray","Infrared","Gamma"],ans:2},
+      {q:"Proximity sensors detect objects:",opts:["Only through touch","Without physical contact","Only through GPS","Only with cameras"],ans:1},
+      {q:"Capacitive proximity sensors detect:",opts:["Only metallic objects","Both metallic and non-metallic objects","Only wooden objects","Only plastic objects"],ans:1},
+      {q:"Optical sensors detect electromagnetic energy from:",opts:["Only visible light","Infrared to ultraviolet range","Only X-rays","Only gamma rays"],ans:1},
+      {q:"Ultrasonic sensors in IoT are used for:",opts:["Only gas detection","Non-contact distance and level measurement","Only temperature sensing","Only audio recording"],ans:1},
+      {q:"Flow sensors measure:",opts:["Air quality","Rate of liquids or gases","Temperature changes","Humidity levels"],ans:1},
+      {q:"A sound sensor uses a condenser microphone to convert:",opts:["Light to electrical signals","Sound waves to electrical voltage changes","Pressure to voltage","Temperature to resistance"],ans:1},
+      {q:"Capacitive touch sensors detect touch by measuring changes in:",opts:["Resistance","Electrical capacitance","Infrared radiation","Sound waves"],ans:1},
+      {q:"Servo motors use which signal for control?",opts:["Analog voltage only","PWM (Pulse Width Modulation)","Digital on/off only","Frequency modulation"],ans:1},
+      {q:"Stepper Motors convert electrical pulses into:",opts:["Smooth continuous rotation","Distinct mechanical steps","Sound output","Heat energy"],ans:1},
+      {q:"A DC motor converts electrical energy into:",opts:["Light energy","Mechanical rotational energy","Heat energy","Sound energy"],ans:1},
+      {q:"Linear Actuators convert:",opts:["Light to motion","Rotary motion into straight-line linear motion","Sound to motion","Heat to motion"],ans:1},
+      {q:"A Relay acts as:",opts:["A sensor","An electrically operated switch","A processor","A storage device"],ans:1},
+      {q:"A Solenoid converts electrical energy into:",opts:["Rotational motion","Linear mechanical motion","Light","Sound"],ans:1},
+      {q:"BLDC stands for:",opts:["Brushless DC motor","Basic Linear DC component","Binary Logic DC Controller","Bipolar Linked DC Circuit"],ans:0},
+      {q:"BLDC motors have no brushes, resulting in:",opts:["Lower efficiency","Higher efficiency, less noise, and longer life","More friction","More noise"],ans:1},
+      {q:"Piezoelectric actuators respond to:",opts:["Magnetic fields","Applied electric voltage causing physical displacement","Sound waves","Light waves"],ans:1},
+      {q:"Nitinol is a Shape Memory Alloy combining:",opts:["Nickel and Titanium","Nickel and Iron","Titanium and Copper","Iron and Aluminum"],ans:0},
+      {q:"MEMS stands for:",opts:["Micro-Electro-Mechanical Systems","Managed Electromagnetic Module Systems","Macro Electronic Memory Storage","Multi-Edge Motion Sensors"],ans:0},
+      {q:"Voice Coil Actuators generate linear motion using:",opts:["Hydraulic pressure","Lorentz force from current in magnetic field","Piezoelectric effect","Shape memory effect"],ans:1},
+      {q:"5G can achieve data rates up to:",opts:["2 Gbps","10 Gbps","20 Gbps","50 Gbps"],ans:2},
+      {q:"5G's ultra-low latency is less than:",opts:["100 ms","10 ms","1 ms","0.1 ms"],ans:2},
+      {q:"Network Slicing in 5G creates:",opts:["Physical network layers","Customizable isolated virtual networks","Only public networks","Only private networks"],ans:1},
+      {q:"V2X communication in 5G stands for:",opts:["Vehicle-to-eXperiment","Vehicle-to-Everything","Vision-to-eXtension","Virtual-to-eXchange"],ans:1},
+      {q:"Which is a disadvantage of 5G?",opts:["High device connectivity","Ultra-low latency","High deployment cost","Network slicing capability"],ans:2},
+      {q:"Digital Divide caused by 5G refers to:",opts:["Better connectivity for all","Uneven distribution of 5G infrastructure across regions","Faster data speeds","Higher security"],ans:1},
+      {q:"NGN stands for:",opts:["Next Generation Network","New Global Node","Network Generation Node","National Grid Network"],ans:0},
+      {q:"NGN replaces which legacy network?",opts:["Internet","PSTN (Public Switched Telephone Network)","Wi-Fi","Ethernet only"],ans:1},
+      {q:"NGN is built on which protocol?",opts:["TCP only","IP (Internet Protocol)","Only SS7","Only Bluetooth"],ans:1},
+      {q:"SIP stands for in NGN:",opts:["Secure IP Protocol","Session Initiation Protocol","Signal Interface Protocol","Service Integration Platform"],ans:1},
+      {q:"SDN stands for:",opts:["Software Defined Networking","Secure Data Node","Structured Data Network","Static Distribution Node"],ans:0},
+      {q:"NFV stands for:",opts:["Network Frequency Variation","Network Function Virtualization","Node Forwarding Vector","Null Frame Verification"],ans:1},
+      {q:"Media Gateway converts voice between:",opts:["Only IP to IP","Circuit-switched TDM and packet-switched VoIP","Only analog to digital","Only wired and wireless"],ans:1},
+      {q:"MGC stands for:",opts:["Media Gateway Controller","Main Gateway Circuit","Mobile Gateway Core","Managed Gateway Connection"],ans:0},
+      {q:"Access Gateway provides connectivity between:",opts:["Core network to internet only","User access networks and NGN core IP network","Only PSTN to PSTN","Only mobile devices"],ans:1},
+      {q:"FTTH stands for:",opts:["Fiber To The Highway","Fiber To The Home","Fiber Technology for High-speed","Fixed To The Hub"],ans:1},
+      {q:"Signaling Gateway converts signaling between:",opts:["IP to IP only","SS7 (PSTN) and IP-based protocols","Only SIP to SIP","Only H.323 to H.323"],ans:1},
+      {q:"MPLS stands for:",opts:["Multi-Protocol Label Switching","Managed Packet Layer System","Multiple Path Layer Service","Modular Protocol Linking System"],ans:0},
+      {q:"IP Core Network uses IPv6 for:",opts:["Only security","Scalability for billions of devices","Only voice calls","Only video streaming"],ans:1},
+      {q:"IVR stands for in Media Server:",opts:["Internet Voice Relay","Interactive Voice Response","Integrated Video Routing","Internal Video Recording"],ans:1},
+      {q:"Application Server provides:",opts:["Physical connectivity","Service logic and application execution","Only data storage","Only encryption"],ans:1},
+      {q:"Cloud Computing in IoT provides:",opts:["Only local storage","High storage capacity, advanced computing, and global accessibility","Only device management","Only security"],ans:1},
+      {q:"MQTT stands for:",opts:["Multi-Queue Technology Transfer","Message Queuing Telemetry Transport","Machine Query and Transfer Technology","Managed Queue Telemetry Transfer"],ans:1},
+      {q:"CoAP stands for:",opts:["Controlled Application Protocol","Constrained Application Protocol","Core Automation Protocol","Cloud API Protocol"],ans:1},
+      {q:"LPWAN stands for:",opts:["Local Power Wide Area Network","Low-Power Wide-Area Network","Linked Protocol Wireless Access Node","Large Processing Wide Area Network"],ans:1},
+      {q:"Siemens S7 and Allen-Bradley are examples of:",opts:["Microcontrollers","Processors","PLCs (Programmable Logic Controllers)","SoCs"],ans:2},
+      {q:"NVIDIA Jetson Nano is an example of an IoT:",opts:["MCU","Processor","SoC","Edge Controller"],ans:3},
+      {q:"Kerlink LoRaWAN Gateway is an example of:",opts:["Wired IoT Gateway","Wireless IoT Gateway","Cellular IoT Gateway","Cloud Server"],ans:1},
+      {q:"5G's enhanced mobile broadband feature is abbreviated as:",opts:["uRLLC","eMBB","LPWAN","NGN"],ans:1},
+      {q:"AMQP stands for:",opts:["Advanced Message Queuing Protocol","Automatic Media Query Protocol","Asynchronous Multi-Queue Processing","Application-level Message Query Protocol"],ans:0},
+      {q:"Soil moisture sensors and smart irrigation are IoT applications in:",opts:["Smart Homes","Agriculture","Healthcare","Smart Buildings"],ans:1},
+      {q:"Fleet management and GPS tracking are IoT applications in:",opts:["Healthcare","Agriculture","Smart Transportation","Retail"],ans:2},
+      {q:"Occupancy sensors in IoT are used in:",opts:["Agriculture","Smart Buildings","Healthcare","Transportation"],ans:1},
+      {q:"Which IoT actuator is used in smart door locks?",opts:["DC Motor","Piezoelectric Actuator","Solenoid","Flow Sensor"],ans:2},
+      {q:"IoT device with SMA actuators are used in smart home for:",opts:["Only lighting","Smart thermostats and automatic window blinds","Only security cameras","Only speakers"],ans:1},
+    ]
+  },
+  {
+    id:3, title:"Unit 3: Blockchain Technology", color:"#FF6B35", icon:"⛓️",
+    questions: [
+      {q:"Blockchain is a type of:",opts:["Centralized database","Decentralized distributed digital ledger","Cloud storage system","Traditional relational database"],ans:1},
+      {q:"Blockchain stores information in:",opts:["Tables and rows","Chronologically ordered blocks linked together","Random data files","Binary trees only"],ans:1},
+      {q:"Who maintains the blockchain across a peer-to-peer network?",opts:["Central authority","Nodes (computers)","Cloud providers","Government agencies"],ans:1},
+      {q:"Which key feature ensures blockchain data cannot be changed once recorded?",opts:["Decentralization","Transparency","Immutability","Smart Contracts"],ans:2},
+      {q:"Transparency in blockchain means:",opts:["Only admins can view data","All participants can view the ledger","Only government can verify","Data is hidden"],ans:1},
+      {q:"Decentralization in blockchain prevents:",opts:["Fast transactions","Single point of failure and control by any entity","Data storage","Smart contracts"],ans:1},
+      {q:"Consensus Mechanisms in blockchain ensure:",opts:["Data is encrypted only","All nodes agree on the current blockchain state","Only miners validate data","Only users can add blocks"],ans:1},
+      {q:"Smart Contracts are:",opts:["Physical paper contracts","Self-executing contracts with terms coded directly","Only digital signatures","Only NFTs"],ans:1},
+      {q:"Traditional systems store data in:",opts:["Distributed ledger","Central server or database","Multiple blockchains","Peer-to-peer networks"],ans:1},
+      {q:"In blockchain, data modification is:",opts:["Add, update, delete","Append-only; cannot alter past data","Only deletable","Fully editable"],ans:1},
+      {q:"Traditional systems require trust from:",opts:["Consensus algorithms","Trusted third parties like banks","All nodes","Only miners"],ans:1},
+      {q:"Blockchain trust is built through:",opts:["Central authority","Cryptography and consensus mechanisms","Manual verification","Paper contracts"],ans:1},
+      {q:"Blockchain systems have lower costs because:",opts:["Cheaper hardware","Peer-to-peer with minimal intermediaries","No security","No encryption"],ans:1},
+      {q:"Nodes in blockchain are:",opts:["Only mining machines","Computers that store and validate the blockchain","Only cloud servers","Only user devices"],ans:1},
+      {q:"Transactions in blockchain are:",opts:["The largest block unit","The smallest building blocks representing asset transfers","Only smart contracts","Only consensus rules"],ans:1},
+      {q:"Blocks in blockchain contain:",opts:["Only one transaction","A set of verified transactions","Only user credentials","Only timestamps"],ans:1},
+      {q:"Chain in blockchain links blocks using:",opts:["User IDs","Unique cryptographic hashes","IP addresses","Random numbers"],ans:1},
+      {q:"Proof of Work (PoW) is used in:",opts:["Ethereum 2.0","Bitcoin","Hyperledger Fabric","Cardano"],ans:1},
+      {q:"Proof of Stake (PoS) is used in:",opts:["Bitcoin","EOS","Ethereum 2.0 and Cardano","Only private blockchains"],ans:2},
+      {q:"Delegated Proof of Stake (DPoS) is used in:",opts:["Bitcoin","Ethereum","EOS and TRON","Hyperledger Fabric"],ans:2},
+      {q:"PBFT stands for:",opts:["Proof-Based Fault Tolerance","Practical Byzantine Fault Tolerance","Parallel Block Fault Tolerance","Private Blockchain Fault Transfer"],ans:1},
+      {q:"PBFT is used in which blockchain?",opts:["Bitcoin","Ethereum 2.0","Hyperledger Fabric","Solana"],ans:2},
+      {q:"Application Layer in blockchain includes:",opts:["Consensus algorithms","Smart contracts, DApps, APIs","Mining hardware","Network protocols"],ans:1},
+      {q:"Uniswap and OpenSea are examples of:",opts:["Public blockchains","Ethereum DApps","Private blockchains","Consensus mechanisms"],ans:1},
+      {q:"Solidity is a programming language for:",opts:["Rust contracts","Ethereum smart contracts","Bitcoin scripts","Hyperledger chaincode"],ans:1},
+      {q:"EVM stands for:",opts:["Ethereum Virtual Machine","Extended Virtual Mode","Encrypted Value Mechanism","Enterprise Validation Module"],ans:0},
+      {q:"The Consensus Layer ensures:",opts:["User interface","All nodes agree on valid ledger state","Data storage only","Application deployment"],ans:1},
+      {q:"The Network Layer (P2P Layer) is responsible for:",opts:["Data visualization","Communication and data exchange between nodes","Mining only","Smart contract execution"],ans:1},
+      {q:"Gossip Protocol in blockchain:",opts:["Slows transactions","Efficiently spreads transactions and blocks across nodes","Mines new blocks","Creates smart contracts"],ans:1},
+      {q:"Merkle Trees in Data Layer are used for:",opts:["User authentication","Efficient transaction verification","Mining puzzles","Network routing"],ans:1},
+      {q:"SHA-256 is used in Bitcoin for:",opts:["Networking","Cryptographic hashing","Smart contracts","Consensus voting"],ans:1},
+      {q:"Full Nodes in blockchain:",opts:["Store only block headers","Store the entire blockchain and validate all transactions","Only mine new blocks","Only relay transactions"],ans:1},
+      {q:"Light Nodes (SPV) in blockchain:",opts:["Store the entire blockchain","Store only block headers and rely on full nodes","Mine all blocks","Create smart contracts"],ans:1},
+      {q:"Infrastructure Layer consists of:",opts:["Smart contracts","Hardware, devices, and networking resources","Only cloud services","Only consensus algorithms"],ans:1},
+      {q:"ASICs in blockchain are used for:",opts:["Data storage","Mining (special-purpose machines)","User interfaces","Networking only"],ans:1},
+      {q:"Mempool in blockchain is:",opts:["A type of mining pool","A temporary waiting area for verified transactions","A permanent storage","A consensus mechanism"],ans:1},
+      {q:"Block Confirmation in blockchain requires:",opts:["Only one miner's approval","Agreement from network participants (consensus)","Government authorization","Only cloud servers"],ans:1},
+      {q:"Once a block is added to blockchain, its transactions are:",opts:["Editable by admins","Permanently recorded and immutable","Deletable","Reversible for 24 hours"],ans:1},
+      {q:"Public blockchain is:",opts:["Permissioned and closed","Permissionless, open-access, decentralized","Controlled by one organization","Only for enterprises"],ans:1},
+      {q:"Bitcoin is an example of:",opts:["Private blockchain","Consortium blockchain","Public blockchain","Hybrid blockchain"],ans:2},
+      {q:"Ethereum supports:",opts:["Only digital currency","Smart contracts and decentralized apps (DApps)","Only private transactions","Only enterprise use"],ans:1},
+      {q:"A disadvantage of Public Blockchain is:",opts:["Highly secure","Slow transaction speed due to many nodes verifying","Transparent","Decentralized"],ans:1},
+      {q:"Private blockchain is controlled by:",opts:["Anyone who joins","A single organization","All public users","Only miners"],ans:1},
+      {q:"Hyperledger Fabric is an example of:",opts:["Public blockchain","Private blockchain","Only gaming blockchain","Only financial blockchain"],ans:1},
+      {q:"Quorum is an Ethereum-based private blockchain by:",opts:["Google","Microsoft","J.P. Morgan","IBM"],ans:2},
+      {q:"Consensus mechanisms in private blockchain include:",opts:["Only PoW","PBFT, RAFT, Proof of Authority (PoA)","Only PoS","Only DPoS"],ans:1},
+      {q:"Consortium blockchain is controlled by:",opts:["Anyone","A single organization","A group of pre-selected organizations","Only public users"],ans:2},
+      {q:"R3 Corda is used in which industry?",opts:["Gaming","Banking/finance","Agriculture","Entertainment"],ans:1},
+      {q:"An advantage of Consortium blockchain is:",opts:["Fully decentralized","Shared governance reducing single-point control","Public access for all","No governance needed"],ans:1},
+      {q:"Hybrid Blockchain combines features of:",opts:["Public and private blockchains","Only consortium blockchains","Only public blockchains","Only private blockchains"],ans:0},
+      {q:"Dragonchain was originally developed by:",opts:["IBM","Google","Disney","Apple"],ans:2},
+      {q:"In Hybrid Blockchain, selective transparency means:",opts:["All data is public","Members choose which transactions are public or private","No data is public","Only miners see data"],ans:1},
+      {q:"DeFi stands for:",opts:["Decentralized Finance","Digital Finance","Distributed Federal Interest","Defined Finance"],ans:0},
+      {q:"Aave and Uniswap are examples of:",opts:["Private blockchain platforms","DeFi applications","Mining pools","Government systems"],ans:1},
+      {q:"CBDCs stand for:",opts:["Central Bank Digital Currencies","Certified Blockchain Digital Contracts","Controlled Blockchain Data Channels","Core Banking Data Compliance"],ans:0},
+      {q:"Digital Yuan is a CBDC developed by:",opts:["India","Bahamas","China","Nigeria"],ans:2},
+      {q:"IBM Food Trust blockchain is used for:",opts:["Gaming","Financial trading","Food traceability (e.g., Walmart)","Healthcare records"],ans:2},
+      {q:"TradeLens is a blockchain solution by:",opts:["Amazon + Google","IBM + Maersk","Microsoft + Walmart","Apple + Tesla"],ans:1},
+      {q:"Blockchain in healthcare manages:",opts:["Only financial records","Electronic Health Records (EHR), drug supply chain, clinical trials","Only gaming assets","Only entertainment"],ans:1},
+      {q:"Medicalchain is an example of blockchain in:",opts:["Finance","Supply Chain","Healthcare","Gaming"],ans:2},
+      {q:"In gaming, NFTs allow:",opts:["Only developers to own assets","Players to truly own in-game assets","Only publishers to trade","Only miners to own items"],ans:1},
+      {q:"Axie Infinity uses which gaming model?",opts:["Pay-to-Play","Play-to-Earn","Free-to-Play","Watch-to-Play"],ans:1},
+      {q:"Smart Contracts execute automatically when:",opts:["A lawyer approves","Predefined conditions are met","A central authority confirms","A miner validates only"],ans:1},
+      {q:"Smart Contracts ensure trustless transactions because:",opts:["They need human verification","Only the blockchain and code enforce rules","They use paper backups","They need bank approval"],ans:1},
+      {q:"Bitcoin (BTC) has a finite supply of:",opts:["10 million","21 million","100 million","Unlimited"],ans:1},
+      {q:"Tether (USDT) is a:",opts:["Volatile cryptocurrency","Stablecoin pegged to the US Dollar","Mining token","NFT platform"],ans:1},
+      {q:"Dogecoin (DOGE) is known as a:",opts:["Enterprise blockchain token","Meme cryptocurrency with unlimited supply","Privacy coin","Stablecoin"],ans:1},
+      {q:"Solana (SOL) is known for:",opts:["Slow transaction speeds","High transaction speeds","Only gaming use","Only DeFi"],ans:1},
+      {q:"Scalability challenge in blockchain means:",opts:["Too much energy","Fewer transactions per second compared to Visa/Mastercard","Too many miners","Too much transparency"],ans:1},
+      {q:"Which consensus mechanism causes high energy consumption?",opts:["Proof of Stake","Delegated Proof of Stake","Proof of Work (PoW)","PBFT"],ans:2},
+      {q:"Regulatory Uncertainty in blockchain means:",opts:["Clear global regulations exist","Different countries have varying laws, creating uncertainty","No regulations anywhere","All countries ban blockchain"],ans:1},
+      {q:"A 51% attack means:",opts:["51% of users leave","An attacker controls more than 50% of mining power","51 users validate each block","51% of data is encrypted"],ans:1},
+      {q:"Ethereum gas fees are an example of:",opts:["Security Risks","High transaction costs limiting everyday payments","Scalability","Regulatory issues"],ans:1},
+      {q:"GDPR's 'right to be forgotten' conflicts with blockchain's:",opts:["Transparency","Decentralization","Immutability","Scalability"],ans:2},
+      {q:"Interoperability challenge in blockchain refers to:",opts:["Too many miners","Different blockchains struggling to communicate","High energy use","Too much transparency"],ans:1},
+      {q:"Smart contracts can have coding flaws leading to:",opts:["Better performance","Security exploits","Faster transactions","More decentralization"],ans:1},
+      {q:"Rug pulls in DeFi are examples of:",opts:["Energy consumption","Security risks in blockchain","Regulatory issues","Interoperability problems"],ans:1},
+      {q:"Chaincode in Hyperledger Fabric implements:",opts:["Mining algorithms","Business logic (similar to smart contracts)","Network protocols","User interfaces"],ans:1},
+      {q:"Digital signatures in blockchain verify:",opts:["Network speed","Sender authenticity and ownership","Block size","Mining difficulty"],ans:1},
+      {q:"Hyperledger Fabric is developed by:",opts:["Google","Linux Foundation","Microsoft","IBM only"],ans:1},
+      {q:"Public-private key encryption in blockchain is used for:",opts:["Network speed","Securing transactions and ensuring data integrity","Only mining","User authentication only"],ans:1},
+      {q:"Cardano (ADA) uses which consensus protocol?",opts:["Proof of Work","PBFT","Ouroboros (PoS)","DPoS"],ans:2},
+      {q:"Tokenizing securities on blockchain enables:",opts:["Only private trading","Digital issuance, efficient trading, and automated settlement","Only government transactions","Only bank-to-bank transfers"],ans:1},
+      {q:"KYC in blockchain-finance relates to:",opts:["Mining verification","Digital Identity Management and AML compliance","Smart contract creation","Gaming NFTs"],ans:1},
+      {q:"MediLedger is an example of blockchain in:",opts:["Gaming","Finance","Pharmaceutical Supply Chain","Real estate"],ans:2},
+      {q:"NFT stands for:",opts:["Non-Fungible Token","Network-Financed Transaction","New Financial Technology","Node-Forwarded Transfer"],ans:0},
+      {q:"Decentraland is an example of blockchain in:",opts:["Finance","Healthcare","Gaming/Metaverse","Supply Chain"],ans:2},
+      {q:"Double spending prevention is a key benefit of:",opts:["Smart contracts","Consensus mechanisms","User wallets","Mining pools"],ans:1},
+      {q:"In blockchain transaction flow, Broadcasting means:",opts:["Only storing locally","Sending transaction to all blockchain nodes","Only to one miner","Only to the receiver"],ans:1},
+      {q:"Transaction verification checks for:",opts:["Only timestamps","Sufficient funds and proper authorization using private key","Only block size","Only network speed"],ans:1},
+      {q:"Ethereum is an example of a blockchain with:",opts:["Only cryptocurrency","Smart contracts and DApps support","Only private access","Only mining"],ans:1},
+      {q:"Nebula Genomics uses blockchain for:",opts:["Gaming assets","Secure storage of genomic data","Supply chain","Financial trading"],ans:1},
+      {q:"Etherisc is an example of blockchain in:",opts:["Gaming","Insurance","Manufacturing","Agriculture"],ans:1},
+      {q:"In Consortium Blockchain, the consensus mechanism RAFT provides:",opts:["Full decentralization","Efficient agreement for a limited set of trusted validators","Public access","Mining rewards"],ans:1},
+      {q:"XinFin (XDC Network) is an example of:",opts:["Public blockchain","Private blockchain","Hybrid blockchain","Consortium blockchain"],ans:2},
+      {q:"WASM (WebAssembly) for smart contracts is used in:",opts:["Bitcoin","Ethereum only","Polkadot/Cosmos","Cardano"],ans:2},
+      {q:"Supply Chain Blockchain helps in:",opts:["Only financial transactions","Traceability, transparency, and fraud prevention of products","Only cryptocurrency mining","Only healthcare data"],ans:1},
+    ]
+  },
+  {
+    id:4, title:"Unit 4: Immersive Technology & Sustainable Computing", color:"#E91E8C", icon:"🥽",
+    questions: [
+      {q:"Immersive technology blends:",opts:["Only physical worlds","Physical and virtual worlds","Only digital environments","Only hardware and software"],ans:1},
+      {q:"Which is NOT a type of immersive technology?",opts:["VR","AR","MR","SQL"],ans:3},
+      {q:"XR is an umbrella term that encompasses:",opts:["Only VR","Only AR","VR, AR, and MR","Only MR"],ans:2},
+      {q:"VR stands for:",opts:["Visual Reality","Virtual Reality","Variable Reality","Versatile Rendering"],ans:1},
+      {q:"VR creates a:",opts:["Real world environment","Computer-generated 3D environment replacing the real world","Mixed physical-digital environment","Only 2D experience"],ans:1},
+      {q:"Which VR headset is mentioned in the material?",opts:["HoloLens","Oculus Quest","Magic Leap","Only Google Cardboard"],ans:1},
+      {q:"VR provides interaction through:",opts:["Only touchscreens","360° view, movement, and virtual object manipulation","Only voice commands","Only eye tracking"],ans:1},
+      {q:"Which is an application of VR in healthcare?",opts:["Virtual shopping","Therapy for phobias and rehabilitation","Only administrative tasks","Only patient record management"],ans:1},
+      {q:"VR for pilot training is an example of:",opts:["Entertainment application","Education & Training application","Healthcare application","Gaming application"],ans:1},
+      {q:"AR stands for:",opts:["Automated Reality","Augmented Reality","Alternative Rendering","Advanced Realism"],ans:1},
+      {q:"Unlike VR, AR:",opts:["Replaces reality completely","Enhances the real world with digital overlays","Creates only 2D graphics","Requires only a PC"],ans:1},
+      {q:"Pokémon GO is an example of AR in:",opts:["Healthcare","Education","Gaming & Entertainment","Industry"],ans:2},
+      {q:"AR can be experienced through:",opts:["Only dedicated headsets","Smartphones, tablets, AR glasses, or headsets","Only desktop computers","Only projectors"],ans:1},
+      {q:"AR in retail allows:",opts:["Only in-store shopping","Virtual try-on for clothes, makeup, or furniture placement","Only inventory management","Only staff training"],ans:1},
+      {q:"AR maps and heads-up displays in vehicles are AR for:",opts:["Healthcare","Gaming","Navigation","Manufacturing"],ans:2},
+      {q:"MR stands for:",opts:["Multiple Reality","Mixed Reality","Machine Reality","Modular Reality"],ans:1},
+      {q:"MR differs from AR because in MR:",opts:["Only virtual objects exist","Physical and digital objects coexist and interact with each other","Reality is fully replaced","Only 2D graphics are used"],ans:1},
+      {q:"Microsoft HoloLens is an example of:",opts:["VR headset","AR glasses only","MR device","Simple display monitor"],ans:2},
+      {q:"MR uses which technology for spatial understanding?",opts:["Only GPS","Cameras, sensors, and AI for spatial mapping","Only Bluetooth","Only Wi-Fi"],ans:1},
+      {q:"Which is an application of MR in business?",opts:["Simple video calls","Digital twins and product design","Only physical meetings","Only printing"],ans:1},
+      {q:"XR stands for:",opts:["Extra Reality","Extended Reality","Extreme Reality","External Reality"],ans:1},
+      {q:"XR provides experiences ranging from:",opts:["Only fully virtual environments","AR (real + digital overlay) to fully simulated VR","Only AR experiences","Only MR experiences"],ans:1},
+      {q:"Industry 4.0 uses XR for:",opts:["Only entertainment","Digital twins, remote assistance, and maintenance visualization","Only HR","Only logistics"],ans:1},
+      {q:"Haptic technology simulates which human sense?",opts:["Sight","Hearing","Touch","Smell"],ans:2},
+      {q:"Haptic feedback in gaming provides:",opts:["Visual effects only","Vibrations, pressure, or motion to simulate texture, weight, resistance","Only sound effects","Only visual cues"],ans:1},
+      {q:"Smartphone vibration motors use:",opts:["Screen protectors","Haptic feedback","Camera lenses","Battery packs"],ans:1},
+      {q:"Haptic technology in healthcare allows doctors to:",opts:["Only diagnose remotely","Practice operations with realistic feedback in surgical simulators","Only prescribe medication","Only view records"],ans:1},
+      {q:"Haptic gloves are used in:",opts:["Only gaming","VR/AR games and robotics & remote control","Only medical diagnosis","Only education"],ans:1},
+      {q:"Telepresence enables a person to feel present at:",opts:["Only at home","A location other than their true physical location","Only in a virtual world","Only on a screen"],ans:1},
+      {q:"Telepresence bridges the gap between:",opts:["Only two computers","Physical and digital communication for natural remote interaction","Only hardware and software","Only audio and video"],ans:1},
+      {q:"Low Latency in Telepresence ensures:",opts:["Noticeable delays","Smooth communication without delays, natural-feeling conversations","Only one-way communication","Only video transmission"],ans:1},
+      {q:"Tele-surgery is an application of:",opts:["VR only","Telepresence in healthcare","AR only","Haptic technology only"],ans:1},
+      {q:"Robotic avatars in telepresence allow users to:",opts:["Only see and hear remotely","See, hear, and manipulate objects in remote environment","Only send text messages","Only make voice calls"],ans:1},
+      {q:"FPV stands for:",opts:["Fast-Paced Vehicle","First-Person View","Forward-Projected Vision","Full-Precision Video"],ans:1},
+      {q:"In FPV drone flight, the pilot views through:",opts:["Binoculars","FPV Goggles or a monitor screen","Only a map","Only GPS data"],ans:1},
+      {q:"Cinematic FPV is used for:",opts:["Only racing","Capturing smooth, immersive video footage for films and tourism","Only search and rescue","Only recreational flying"],ans:1},
+      {q:"FPV Racing involves:",opts:["Slow-speed flying","Competitive high-speed racing through obstacle courses","Only aerial photography","Only scientific research"],ans:1},
+      {q:"IKEA's AR app allows customers to:",opts:["Only order furniture online","See how furniture fits into their homes","Only compare prices","Only read reviews"],ans:1},
+      {q:"Boeing uses AR to help technicians:",opts:["Order parts","Assemble aircraft wiring efficiently","Only train new staff","Only track inventory"],ans:1},
+      {q:"VR training for athletes involves:",opts:["Only physical practice","Simulated environments with performance tracking","Only watching videos","Only reading manuals"],ans:1},
+      {q:"Virtual property tours in real estate use:",opts:["Only physical visits","VR for buyers to walk through properties remotely","Only photographs","Only floor plans"],ans:1},
+      {q:"Cultural Preservation using immersive technology involves:",opts:["Destroying old sites","3D immersive recreations of endangered heritage sites","Only digital photography","Only text documentation"],ans:1},
+      {q:"Virtual Offices in workplace collaboration use:",opts:["Traditional office setups","VR environments with avatars for team collaboration","Only video calls","Only chat messaging"],ans:1},
+      {q:"Combat Training Simulations for military use:",opts:["Only physical training","VR battlefields for realistic scenario training","Only written manuals","Only lectures"],ans:1},
+      {q:"360° immersive films are an example of XR in:",opts:["Industry","Entertainment & Media","Agriculture","Manufacturing"],ans:1},
+      {q:"Green Computing is also called:",opts:["Cloud Computing","Green IT","Quantum Computing","Edge Computing"],ans:1},
+      {q:"The goal of Green Computing is to:",opts:["Maximize performance at any cost","Achieve energy efficiency, reduce e-waste, and minimize carbon footprint","Only increase speed","Only reduce hardware costs"],ans:1},
+      {q:"SSDs consume ______ power compared to traditional HDDs:",opts:["More","Less","The same","Unpredictable"],ans:1},
+      {q:"Server Virtualization allows:",opts:["Only one app per server","Multiple virtual machines to run on a single physical server","Replace all servers with cloud","Only gaming on servers"],ans:1},
+      {q:"DVFS stands for:",opts:["Dynamic Voltage and Frequency Scaling","Distributed Virtual File System","Digital Video Frame Synchronizer","Dedicated Virtual Function Server"],ans:0},
+      {q:"Green Data Center practices include:",opts:["Using only coal power","Efficient cooling, renewable energy, and heat recovery","Only increasing server count","Only reducing internet speed"],ans:1},
+      {q:"Free air cooling in data centers uses:",opts:["Only air conditioners","Outside air to cool the data center","Only liquid nitrogen","Only fans"],ans:1},
+      {q:"E-Waste includes discarded:",opts:["Only computers","Computers, smartphones, TVs, servers, and IT equipment","Only paper documents","Only plastic packaging"],ans:1},
+      {q:"E-Waste often contains harmful materials like:",opts:["Only plastic","Lead, mercury, cadmium, and arsenic","Only glass","Only rubber"],ans:1},
+      {q:"Circular Economy in E-waste management encourages:",opts:["Burning old devices","Reuse, refurbishing, and sustainable production","Only landfill disposal","Only buying new devices"],ans:1},
+      {q:"Refurbishing old electronics involves:",opts:["Destroying them","Repairing and reselling old devices","Only recycling metals","Only donating"],ans:1},
+      {q:"Corporate Social Responsibility (CSR) in green computing helps:",opts:["Increase costs","Attract eco-conscious consumers and improve public perception","Only reduce performance","Only increase waste"],ans:1},
+      {q:"Renewable energy sources for data centers include:",opts:["Coal and oil","Solar and wind power","Only nuclear","Only diesel generators"],ans:1},
+      {q:"Reducing energy consumption lowers which environmental metric?",opts:["Humidity levels","Carbon footprint","Internet speed","Hardware size"],ans:1},
+      {q:"Steps in E-Waste Management include collection, sorting, dismantling, recycling, and:",opts:["Burning","Safe Disposal","Dumping in ocean","Sending to landfill directly"],ans:1},
+      {q:"Quantum Computing uses principles of:",opts:["Classical physics","Quantum mechanics","General relativity","Newton's laws"],ans:1},
+      {q:"Qubits differ from classical bits because they can:",opts:["Only be 0","Only be 1","Exist in multiple states at once (superposition)","Only be binary"],ans:2},
+      {q:"Superposition allows a qubit to be:",opts:["Only 0","Only 1","0, 1, or both simultaneously","Only off or on"],ans:2},
+      {q:"Quantum Entanglement means:",opts:["Qubits are independent","Two or more qubits are correlated; state of one affects the other","Only one qubit can exist","Qubits only work locally"],ans:1},
+      {q:"Quantum Interference is used to:",opts:["Slow down computation","Enhance correct results and cancel incorrect ones","Create more qubits","Reduce quantum memory"],ans:1},
+      {q:"Quantum computers use which type of gates?",opts:["Binary AND/OR gates","Quantum gates like Hadamard, CNOT, Pauli-X","Only NAND gates","Only NOR gates"],ans:1},
+      {q:"Quantum Computing can solve problems that classical supercomputers:",opts:["Solve easily","Cannot solve","Solve faster","Already handle well"],ans:1},
+      {q:"Quantum Computing in Drug Discovery helps simulate:",opts:["Only market drugs","Molecular interactions to design new medications","Only store drug formulas","Only train pharmacists"],ans:1},
+      {q:"Quantum Computing in Finance is used for:",opts:["Only basic calculations","Optimizing portfolios, risk management, and fraud detection","Only printing reports","Only data backup"],ans:1},
+      {q:"Quantum Computing in Climate Analysis models:",opts:["Only recording temperature","Complex climate systems for carbon capture solutions","Only storing weather data","Only forecasting rain"],ans:1},
+      {q:"Post-quantum cryptography refers to:",opts:["Breaking all encryption","New cryptographic methods enabled by quantum computing","Only classical encryption","Only blockchain security"],ans:1},
+      {q:"Quantum Computing excels in which type of problems?",opts:["Simple arithmetic","Complex optimization and simulation problems","Only data storage","Only network routing"],ans:1},
+      {q:"Traffic Optimization using Quantum Computing involves:",opts:["Only traffic cameras","Advanced simulations and real-time route adjustments","Only traffic lights","Only police enforcement"],ans:1},
+      {q:"Quantum Computing accelerates AI in:",opts:["Only image storage","Deep learning and natural language processing","Only hardware optimization","Only network security"],ans:1},
+      {q:"Materials Science application of Quantum Computing helps discover:",opts:["Only building materials","New materials for cleaner energy and better batteries","Only decoration materials","Only plastic production"],ans:1},
+      {q:"HTC Vive is an example of a:",opts:["AR device","MR device","VR headset","Haptic suit"],ans:2},
+      {q:"Magic Leap is an example of a:",opts:["VR headset","AR glasses only","MR device","FPV drone"],ans:2},
+      {q:"In E-Waste, precious metals recovered include:",opts:["Iron and aluminum only","Gold, copper, and silver","Only plastic","Only glass"],ans:1},
+      {q:"Green Computing Regulatory Compliance helps businesses:",opts:["Ignore environmental laws","Prepare for and meet environmental regulations","Only reduce costs","Only increase production"],ans:1},
+      {q:"Quantum Computing for Agriculture helps develop:",opts:["Only soil testing","More efficient fertilizers by simulating chemical processes","Only irrigation systems","Only harvesting tools"],ans:1},
+      {q:"FPV Freestyle involves:",opts:["Only capturing video","Performing acrobatic tricks and manoeuvres in open spaces","Only racing","Only search and rescue"],ans:1},
+      {q:"AR Guides at tourist sites allow:",opts:["Only viewing modern buildings","Viewing reconstructions of historical events or monuments","Only photographs","Only maps"],ans:1},
+      {q:"VR Boxing workouts combine:",opts:["Only gaming with no physical activity","Gaming with physical exercise for immersive fitness","Only traditional boxing","Only weight training"],ans:1},
+      {q:"Digital Twin in Industry 4.0 means:",opts:["Only physical copy","A virtual replica of a physical system used for simulation","Only a 2D drawing","Only a database record"],ans:1},
+      {q:"Remote Consultation using AR telepresence allows doctors to:",opts:["Only read patient records","Examine patients remotely in real time","Only prescribe medicine","Only send test results"],ans:1},
+      {q:"Heat Recovery in Green Data Centers reuses waste heat for:",opts:["Only powering servers","Heating nearby buildings, improving energy efficiency","Only cooling more servers","Only generating electricity"],ans:1},
+      {q:"Cold and hot aisle containment in data centers minimizes:",opts:["Server count","Energy required for cooling","Only noise","Only space usage"],ans:1},
+      {q:"Haptic Technology's Realism feature adds which dimension to digital experiences?",opts:["Visual only","Tactile (touch) dimension","Only audio","Only motion capture"],ans:1},
+      {q:"VR in Defense is used for:",opts:["Only administrative work","Combat training simulations and maintenance training","Only recruiting","Only logistics"],ans:1},
+      {q:"The book 'Immersive Technologies' for Unit 4 is published by:",opts:["Wiley","Palgrave Macmillan","CRC Press","Oxford University Press"],ans:2},
+      {q:"Sustainable Construction for Green Data Centers includes:",opts:["Only new concrete buildings","Recycled materials, modular construction, transforming existing buildings","Only glass buildings","Only underground facilities"],ans:1},
+      {q:"AI optimization in Green Computing monitors:",opts:["Only user behavior","Power consumption to ensure IT operations run efficiently","Only network traffic","Only storage usage"],ans:1},
+      {q:"Quantum Computing for Logistics and Optimization helps improve:",opts:["Only package sizes","Supply chain efficiency and delivery route optimization","Only warehouse storage","Only billing systems"],ans:1},
+      {q:"E-Waste collection methods include:",opts:["Only landfills","E-waste bins, buy-back programs, and collection centers","Only house pickups","Only mail-in programs"],ans:1},
+      {q:"Green Computing's Resource Conservation extends device life by:",opts:["Using more energy","Using sustainable materials and repairing devices","Only buying new devices","Only upgrading hardware"],ans:1},
+      {q:"Quantum Interference in quantum computing:",opts:["Increases errors","Enhances correct results and cancels incorrect ones","Only speeds up computation","Only increases memory"],ans:1},
+    ]
+  },
+  {
+    id:5, title:"Unit 5: Digital Forensics & Ethical Hacking", color:"#FF4444", icon:"🔍",
+    questions: [
+      {q:"Digital Forensics involves examining digital devices to:",opts:["Only repair them","Find evidence of a crime for legal proceedings","Only update software","Only manage data"],ans:1},
+      {q:"Which is NOT a step in Digital Forensics?",opts:["Identification","Acquisition","Manufacturing","Preservation"],ans:2},
+      {q:"Acquisition in forensics means:",opts:["Creating new data","Securely obtaining copies of data without altering original evidence","Deleting old files","Encrypting all data"],ans:1},
+      {q:"The goal of Reporting in digital forensics is to:",opts:["Modify evidence","Present findings in a scientifically sound, court-admissible report","Only store evidence","Only notify police"],ans:1},
+      {q:"Which is a Key Area of Digital Forensics?",opts:["Web design","Network Forensics (monitoring traffic for intrusions)","Game development","Social media management"],ans:1},
+      {q:"Cloud Forensics investigates:",opts:["Only physical devices","Cloud storage and services","Only email accounts","Only mobile phones"],ans:1},
+      {q:"Malware Forensics studies:",opts:["Hardware malfunctions","Malicious software to understand attacks","Network cabling","Software licenses"],ans:1},
+      {q:"Corporate Investigations in digital forensics include:",opts:["Only criminal cases","Investigating internal policy violations and data breaches","Only government cases","Only tax fraud"],ans:1},
+      {q:"The Admissibility rule means evidence must be:",opts:["Only digitally stored","Legally usable in formal proceedings","Only encrypted","Only backed up"],ans:1},
+      {q:"Chain of Custody means:",opts:["Storing evidence in clouds","Maintaining a record of every person who handled the evidence from collection to presentation","Only encrypting evidence","Only backing up data"],ans:1},
+      {q:"Hash functions like MD5 and SHA-256 in forensics verify:",opts:["Network speed","Evidence integrity (data has not been altered)","File creation dates","User identities"],ans:1},
+      {q:"The Minimal Handling Rule means:",opts:["Handle evidence as much as possible","Handle digital evidence as little as possible to avoid accidental modification","Only handle evidence once","Delete after handling"],ans:1},
+      {q:"The Reproducibility Rule means:",opts:["Evidence can be destroyed","The forensic process should be repeatable by another expert with same results","Only one investigator can handle evidence","Evidence expires after 30 days"],ans:1},
+      {q:"The Completeness rule means evidence should:",opts:["Only present key fragments","Present the entire relevant story","Only include encrypted data","Only include recent data"],ans:1},
+      {q:"The Legality Rule requires investigators to:",opts:["Ignore privacy laws","Follow laws, privacy rules, and search warrants","Access any system without permission","Only work on government cases"],ans:1},
+      {q:"The first step in the digital forensics investigation process is:",opts:["Analysis","Presentation","Identification of potential digital evidence sources","Documentation"],ans:2},
+      {q:"Forensic tools like FTK, EnCase, and Autopsy are used in which step?",opts:["Documentation","Collection of evidence","Reporting","Identification"],ans:1},
+      {q:"During Examination in forensics, investigators:",opts:["Delete irrelevant files","Search for relevant information using filtering, keyword searches, metadata analysis","Create new data","Only write reports"],ans:1},
+      {q:"Analysis in forensics reconstructs:",opts:["New hardware","Digital events (who, what, when, where, how)","Only deleted files","Only encrypted data"],ans:1},
+      {q:"Expert testimony in court should be:",opts:["Biased toward prosecution","Clear, unbiased, and based on evidence","Only general statements","Only technical jargon"],ans:1},
+      {q:"Investigators should always work on:",opts:["Original data","Copies, not the original data","Both original and copies","Reconstructed data only"],ans:1},
+      {q:"Secure Storage for digital evidence means:",opts:["Any USB drive","Tamper-proof, access-controlled environments","Only cloud storage","Only local drives"],ans:1},
+      {q:"DFRWS Model was proposed in:",opts:["1995","2001","2010","2015"],ans:1},
+      {q:"DFRWS stands for:",opts:["Digital Forensics Research Workshop","Digital Forensic Risk Workshop","Data Forensic Research Workshop","Digital Fraud Research Workshop"],ans:0},
+      {q:"Which phase of DFRWS Model reconstructs digital events into a narrative?",opts:["Documentation","Reconstruction","Analysis","Identification"],ans:1},
+      {q:"The final phase of the DFRWS model is:",opts:["Analysis","Presentation","Returning Evidence","Documentation"],ans:2},
+      {q:"ADFM was developed by:",opts:["NIST","Reith, Carr, & Gunsch (2002)","Carrier and Spafford","Stephenson"],ans:1},
+      {q:"Which phase does ADFM add that DFRWS lacks?",opts:["Analysis","Presentation","Preparation, Approach Strategy, and Returning Evidence","Documentation"],ans:2},
+      {q:"ADFM stands for:",opts:["Advanced Digital Forensics Model","Abstract Digital Forensics Model","Automated Digital File Management","Applied Data Forensics Module"],ans:1},
+      {q:"IDIP Model was proposed by:",opts:["DFRWS","Reith, Carr & Gunsch","Carrier and Spafford (2003)","Stephenson"],ans:2},
+      {q:"The IDIP Model integrates digital evidence with:",opts:["Only cloud evidence","Traditional physical crime investigations","Only mobile forensics","Only network forensics"],ans:1},
+      {q:"Readiness phase in IDIP focuses on:",opts:["Collecting evidence","Preparing organization and infrastructure for digital investigation","Analyzing data","Presenting findings"],ans:1},
+      {q:"EEDIP was developed by:",opts:["Carrier and Spafford","Reith, Carr & Gunsch","Stephenson (2003)","DFRWS team"],ans:2},
+      {q:"EEDIP stands for:",opts:["Extended Evidence Digital Investigation Process","End to End Digital Investigation Process","Encrypted Evidence Digital Inspection Protocol","Enterprise Evidence Digital Inquiry Platform"],ans:1},
+      {q:"EEDIP focuses on tracing digital incidents from:",opts:["Only the destination","Source to destination and the path between them","Only the cloud","Only the network"],ans:1},
+      {q:"Event Normalization in EEDIP means:",opts:["Deleting duplicate events","Standardizing different data formats for better comparison","Only encrypting events","Only documenting events"],ans:1},
+      {q:"Timeline Analysis in EEDIP creates:",opts:["A random event list","A chronological timeline showing progression of digital incident","Only network maps","Only file trees"],ans:1},
+      {q:"EMCI stands for:",opts:["Extended Model of Cybercrime Investigation","Encrypted Management of Cybercrime Intelligence","Electronic Monitoring of Criminal Intent","Enterprise Model for Cybercrime Investigation"],ans:0},
+      {q:"EMCI was designed to address:",opts:["Only hardware theft","Complexity of cybercrimes involving multiple jurisdictions","Only network attacks","Only data breaches"],ans:1},
+      {q:"UML in digital forensics is used for:",opts:["Only programming smart contracts","Formalizing and visualizing the digital forensic process","Only data storage","Only encryption"],ans:1},
+      {q:"Activity Diagrams in UML show:",opts:["Hardware connections","Step-by-step activities in a process with decision points","Only user roles","Only data flow diagrams"],ans:1},
+      {q:"Use Case Diagrams in UML show:",opts:["Only network maps","High-level interactions between actors and the forensic system","Only database schemas","Only encryption algorithms"],ans:1},
+      {q:"Ethical hacking is also known as:",opts:["Black Hat Hacking","Penetration Testing or White Hat Hacking","Gray Hat Hacking","Script Kiddie Hacking"],ans:1},
+      {q:"Ethical hackers work:",opts:["Without permission","With permission from system owners","Against system owners","Only in criminal cases"],ans:1},
+      {q:"Black Hat Hackers hack systems for:",opts:["Ethical purposes","Illegal or harmful purposes like data theft","Security testing","Education only"],ans:1},
+      {q:"Gray Hat Hackers:",opts:["Always have malicious intent","Discover vulnerabilities without authorization but without malicious intent","Always work ethically","Only use pre-written scripts"],ans:1},
+      {q:"Red Hat Hackers:",opts:["Work for governments","Actively target and disable black hat hackers","Use pre-written scripts only","Work for corporations only"],ans:1},
+      {q:"Script Kiddies are:",opts:["Expert hackers","Amateur hackers using pre-written scripts without deep knowledge","Government-sponsored hackers","Ethical testers"],ans:1},
+      {q:"Hacktivists hack to:",opts:["Earn money","Advance a political or social agenda","Only test systems","Only steal data"],ans:1},
+      {q:"State Sponsored Hackers are employed by:",opts:["Private companies","Governments to conduct cyber warfare or espionage","Non-profit organizations","Only criminal gangs"],ans:1},
+      {q:"Blue Hat Hackers are:",opts:["Government spies","Security experts hired to find vulnerabilities before system launch","Script kiddies","Hacktivists"],ans:1},
+      {q:"AI-Powered Phishing creates highly convincing emails by:",opts:["Only using spam filters","Analyzing public data and crafting personalized messages","Only using keyword spam","Only using template emails"],ans:1},
+      {q:"Hyper-personalization in AI phishing refers to:",opts:["Generic mass emails","Messages referencing specific details about the target like job role","Only image-based emails","Only voice phishing"],ans:1},
+      {q:"Deepfakes can be used in phishing as:",opts:["Only text messages","Realistic audio or video impersonating individuals","Only written content","Only phone calls with no video"],ans:1},
+      {q:"Ransomware 2.0 differs from older ransomware by:",opts:["Only encrypting files","Using double extortion: stealing AND threatening to release data","Only demanding Bitcoin","Only targeting home users"],ans:1},
+      {q:"Double Extortion in Ransomware 2.0 means attackers:",opts:["Only encrypt files","Steal data first and then encrypt files, threatening to release stolen data","Only demand money","Only delete data"],ans:1},
+      {q:"RaaS stands for:",opts:["Ransomware-as-a-System","Ransomware-as-a-Service","Remote Access as a Service","Risk Assessment as a Service"],ans:1},
+      {q:"LockBit 2.0 is an example of:",opts:["Ethical hacking tool","Ransomware 2.0 targeting VMware ESXi","Digital forensics software","VPN software"],ans:1},
+      {q:"IoT Exploits target which vulnerability?",opts:["Only strong encryption","Weak passwords, unpatched software, and insecure connections","Only physical damage","Only software licenses"],ans:1},
+      {q:"Botnets from IoT exploits are used for:",opts:["Legitimate computing","Launching DDoS attacks or distributing malware","Only legal research","Only educational purposes"],ans:1},
+      {q:"Zero-Trust Model in IoT security means:",opts:["Trust all devices inside the network","Assume no device or user is trustworthy by default","Only trust wired devices","Only trust encrypted devices"],ans:1},
+      {q:"Deepfake technology uses which AI technique?",opts:["Only supervised learning","Generative Adversarial Networks (GANs)","Only regression models","Only decision trees"],ans:1},
+      {q:"Autoencoders in deepfake creation are used for:",opts:["Network routing","Capturing and transferring face characteristics (face-swapping)","Only data encryption","Only network monitoring"],ans:1},
+      {q:"Deepfake risks include:",opts:["Only artistic use","Misinformation, fraud, harassment, and national security threats","Only entertainment benefits","Only education improvements"],ans:1},
+      {q:"Reconnaissance in OS hacking involves:",opts:["Exploiting vulnerabilities","Gathering information about the target OS and network","Installing backdoors","Covering tracks"],ans:1},
+      {q:"Nmap is a tool used in which OS hacking stage?",opts:["Reconnaissance","Scanning","Maintaining access","Covering tracks"],ans:1},
+      {q:"Maintaining Access after OS hacking involves:",opts:["Deleting all data","Installing backdoors, rootkits, or Trojans","Only notifying the admin","Only changing passwords"],ans:1},
+      {q:"Buffer Overflow attack causes:",opts:["Network disconnection","System crash or execution of malicious code","Only slow performance","Only data deletion"],ans:1},
+      {q:"Privilege Escalation in OS hacking means:",opts:["Reducing user permissions","Gaining higher-level (admin/root) access after initial entry","Only creating new accounts","Only monitoring systems"],ans:1},
+      {q:"OS Downgrade Attack forces a system to:",opts:["Upgrade to a newer OS","Roll back to a previous, vulnerable OS version","Only change settings","Only delete files"],ans:1},
+      {q:"VBS in OS security stands for:",opts:["Virtual Backup System","Virtualization-Based Security","Variable Boot Sequence","Virtual Browser Storage"],ans:1},
+      {q:"Firmware-level exploits are difficult to detect because:",opts:["They are too large","They reside below the OS, invisible to traditional antivirus","They only affect mobile devices","They are fully encrypted"],ans:1},
+      {q:"Firmware exploits can persist even after:",opts:["Changing network settings","Reinstalling the OS or rebooting","Only changing passwords","Only updating antivirus"],ans:1},
+      {q:"WAF stands for:",opts:["Wide Area Firewall","Web Application Firewall","Wireless Authentication Framework","Web Access Filter"],ans:1},
+      {q:"WAF Bypass uses Obfuscation to:",opts:["Improve security","Alter the payload's signature while preserving its malicious intent","Only encrypt traffic","Only slow down attacks"],ans:1},
+      {q:"Zero-Day Vulnerability is a flaw that is:",opts:["Already patched","Unknown to the vendor and public","Well documented","Only theoretical"],ans:1},
+      {q:"Zero-Day Exploit is called 'zero-day' because:",opts:["It lasts zero hours","Defenders have zero days to prepare before attackers use it","It costs zero money","It requires zero skills"],ans:1},
+      {q:"Stuxnet (2010) used zero-day exploits to target:",opts:["A US hospital","Iranian nuclear facilities","A financial institution","A gaming company"],ans:1},
+      {q:"SolarWinds Orion attack (2020) was a:",opts:["IoT exploit","Supply chain attack using zero-day exploit","AI phishing","OS downgrade"],ans:1},
+      {q:"NCSP stands for:",opts:["National Cyber Service Program","National Cyber Security Policy","Network Control Security Protocol","National Cloud Storage Policy"],ans:1},
+      {q:"NCSP 2013 was formulated by:",opts:["RBI","DeitY (Department of Electronics and Information Technology)","Ministry of Defense","NASSCOM"],ans:1},
+      {q:"NCIIPC stands for:",opts:["National Cyber Intelligence and Information Protection Centre","National Critical Information Infrastructure Protection Centre","Network Control and IT Infrastructure Protection Council","National Cybercrime Investigation and Prevention Committee"],ans:1},
+      {q:"CERT-In is the nodal agency for:",opts:["Only banking security","Cyber incident response in India","Only telecom security","Only defense security"],ans:1},
+      {q:"NCSP 2013 aims to create a cybersecurity workforce of:",opts:["100,000","250,000","500,000","1,000,000"],ans:2},
+      {q:"IT Act 2000 was enacted on:",opts:["15 August 2000","26 January 2000","17 October 2000","1 April 2000"],ans:2},
+      {q:"Under IT Act 2000, Section 66 deals with:",opts:["Privacy violations","Hacking a computer system (up to 3 years or ₹5 lakh fine)","Cyber terrorism","Child pornography"],ans:1},
+      {q:"Section 66F of IT Act deals with:",opts:["Identity theft","Violation of privacy","Cyber terrorism (life imprisonment)","Publishing obscene content"],ans:2},
+      {q:"Section 67 of IT Act deals with:",opts:["Hacking","Cyber terrorism","Publication of obscene content online","Identity theft"],ans:2},
+      {q:"IT Amendment Act was passed in:",opts:["2000","2005","2008","2013"],ans:2},
+      {q:"Section 66C of IT Act (Amendment) deals with:",opts:["Hacking","Identity theft (fraudulently using electronic signatures or passwords)","Cyber terrorism","Privacy violation"],ans:1},
+      {q:"Section 66E of IT Act deals with:",opts:["Hacking","Cyber terrorism","Identity theft","Violation of privacy by capturing/sharing private images"],ans:3},
+      {q:"Section 67B of IT Act deals with:",opts:["Hacking","Identity theft","Child pornography","Cyber terrorism"],ans:2},
+      {q:"DPDP Act 2023 stands for:",opts:["Digital Personal Data Privacy Act","Digital Personal Data Protection Act","Digital Privacy Data Prevention Act","Data Protection and Privacy Defense Act"],ans:1},
+      {q:"DPDP Act 2023 was assented to on:",opts:["15 August 2023","26 January 2023","11 August 2023","1 January 2023"],ans:2},
+      {q:"Under DPDP Act 2023, maximum monetary penalty is:",opts:["₹10 crore","₹50 crore","₹100 crore","₹250 crore"],ans:3},
+      {q:"Data Principal under DPDP Act means:",opts:["The company processing data","The individual whose personal data is being processed","The government authority","The data storage provider"],ans:1},
+      {q:"CCPWC scheme was launched in:",opts:["2013","2016","2018","2020"],ans:2},
+      {q:"CCPWC was launched by:",opts:["NASSCOM","Ministry of Home Affairs (MHA)","RBI","Ministry of Electronics and IT"],ans:1},
+      {q:"I4C stands for:",opts:["Indian Internet Infrastructure Control Council","Indian Cyber Crime Coordination Centre","Indian IT Infrastructure Control Committee","Internet and Information Compliance Council"],ans:1},
+      {q:"The National Cyber Crime Reporting Portal URL is:",opts:["www.cybersafety.gov.in","www.cybercrime.gov.in","www.cyberpolice.gov.in","www.cybersecurity.gov.in"],ans:1},
+      {q:"Section 354D of IPC deals with:",opts:["Hacking","Cyberstalking or online harassment of women","Identity theft","Child pornography"],ans:1},
+      {q:"CRAT in IT Act 2000 stands for:",opts:["Cyber Risk Assessment Team","Cyber Regulations Appellate Tribunal","Computer Relay and Access Terminal","Cybercrime Reporting and Analysis Team"],ans:1},
+      {q:"Section 69 of IT Act 2008 gives government power to:",opts:["Only monitor emails","Order interception or monitoring of information for security","Only block social media","Only decrypt bank data"],ans:1},
+      {q:"Section 69A of IT Act 2008 allows:",opts:["Creating new websites","Blocking public access to websites in interest of sovereignty or public order","Only encrypting data","Only monitoring traffic"],ans:1},
+      {q:"Children's data under DPDP Act 2023 requires:",opts:["Only school verification","Parental consent and prohibits targeted ads or behavioral monitoring","Only government ID","Only age verification"],ans:1},
+      {q:"Data Protection Board of India under DPDP Act handles:",opts:["Only financial audits","Complaints, enforcement, investigation, and imposition of penalties","Only cybercrime cases","Only government data"],ans:1},
+      {q:"Statechart Diagrams in UML model:",opts:["Hardware connections","Different states of digital evidence as it moves through forensic investigation","Only user roles","Only data flow"],ans:1},
+      {q:"Deployment Diagrams in UML show:",opts:["Only process flow","Physical hardware and software components and their relationships","Only user interactions","Only data storage"],ans:1},
+      {q:"Phases in IDIP Model include Readiness, Deployment, Physical Crime Scene Investigation, Digital Crime Scene Investigation, and:",opts:["Identification","Reporting","Review","Presentation"],ans:2},
+      {q:"Green Hat Hackers are:",opts:["Expert hackers","Novice hackers still developing their technical skills","Government hackers","Ethical hackers"],ans:1},
+      {q:"Deepfake detection is challenging because:",opts:["Deepfakes are always obvious","Generative AI methods are constantly improving","Only audio deepfakes are hard to detect","Only video deepfakes exist"],ans:1},
+      {q:"Which IT Act section deals with unauthorized access and damage to computer systems?",opts:["Section 66","Section 43","Section 67","Section 72"],ans:1},
+      {q:"Section 72 of IT Act 2000 deals with:",opts:["Hacking","Cyber terrorism","Breach of confidentiality and privacy","Publishing obscene content"],ans:2},
+      {q:"Section 70B of IT Act 2008 establishes:",opts:["A new police force","Indian Computer Emergency Response Team (CERT-In)","A new court","A new tribunal"],ans:1},
+      {q:"Section 69B of IT Act 2008 authorizes:",opts:["Creating new websites","Monitoring and collecting traffic data for cyber security","Only blocking content","Only intercepting calls"],ans:1},
+      {q:"Section 70 of IT Act protects:",opts:["User privacy","Protected systems (critical infrastructure) from unauthorized access","Only social media","Only gaming platforms"],ans:1},
+      {q:"The CCPWC scheme focuses on crimes such as:",opts:["Only tax fraud","Online harassment, cyberstalking, cyberbullying, child pornography, and blackmail","Only financial fraud","Only data theft from companies"],ans:1},
+      {q:"Section 292/293 of IPC in context of CCPWC deals with:",opts:["Hacking","Transmission of obscene content online accessible to minors","Identity theft","Cyberstalking"],ans:1},
+      {q:"Approach Strategy phase in ADFM defines strategy to:",opts:["Present findings in court","Maximize collection of relevant data while minimizing disruption","Only encrypt data","Only restore backups"],ans:1},
+      {q:"The EEDIP model's Preliminary Correlation phase brings together:",opts:["Legal documents only","Individual events to form a preliminary understanding of the incident","Only physical evidence","Only digital signatures"],ans:1},
+      {q:"Event De-confliction in EEDIP resolves:",opts:["Hardware conflicts","Discrepancies or contradictions between different pieces of evidence","Only software version conflicts","Only network collisions"],ans:1},
+      {q:"The EMCI model extends traditional forensic models by adding extra phases to better manage:",opts:["Only physical crimes","Cybercrimes with multiple jurisdictions and sophisticated offenders","Only financial crimes","Only hardware theft"],ans:1},
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════
+// APP STATE
+// ══════════════════════════════════════════════
+let currentUnit = null;
+let questions = [];
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+
+// ══════════════════════════════════════════════
+// HOME
+// ══════════════════════════════════════════════
+function renderHome() {
+  const grid = document.getElementById('unit-grid');
+  grid.innerHTML = '';
+  UNITS.forEach(u => {
+    const card = document.createElement('div');
+    card.className = 'unit-card';
+    card.style.setProperty('--uc', u.color);
+    card.innerHTML = `
+      <span class="unit-icon">${u.icon}</span>
+      <h3>${u.title}</h3>
+      <div class="unit-meta">${u.questions.length} questions</div>
+      <div class="unit-badge" style="background:${u.color}">Start Quiz →</div>
+    `;
+    card.onclick = () => startQuiz(u);
+    grid.appendChild(card);
+  });
+}
+
+function goHome() {
+  document.getElementById('home-screen').style.display = 'block';
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'none';
+}
+
+// ══════════════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════════════
+function startQuiz(unit) {
+  currentUnit = unit;
+  questions = [...unit.questions];
+  // Shuffle questions
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+  currentQ = 0;
+  score = 0;
+  answered = false;
+  userAnswers = new Array(questions.length).fill(null);
+
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  document.getElementById('quiz-screen').style.setProperty('--uc', unit.color);
+  document.getElementById('quiz-unit-label').textContent = unit.title;
+
+  buildQNav();
+  renderQuestion();
+}
+
+function buildQNav() {
+  const nav = document.getElementById('q-nav');
+  nav.innerHTML = '';
+  questions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'q-dot';
+    dot.textContent = i + 1;
+    dot.id = `dot-${i}`;
+    nav.appendChild(dot);
+  });
+}
+
+function updateQNav() {
+  questions.forEach((_, i) => {
+    const dot = document.getElementById(`dot-${i}`);
+    if (!dot) return;
+    dot.className = 'q-dot';
+    if (userAnswers[i] !== null) {
+      const correct = userAnswers[i] === questions[i].ans;
+      dot.classList.add(correct ? 'answered-correct' : 'answered-wrong');
+    }
+  });
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  answered = false;
+
+  // Update progress
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('score-live').textContent = `Score: ${score} / ${currentQ}`;
+
+  // Question text
+  document.getElementById('q-text').textContent = `Q${currentQ + 1}. ${q.q}`;
+
+  // Options
+  const optList = document.getElementById('options-list');
+  optList.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-label">${labels[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    optList.appendChild(btn);
+  });
+
+  // Reset feedback
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box';
+  fb.style.display = 'none';
+  fb.textContent = '';
+
+  document.getElementById('next-btn').style.display = 'none';
+  updateQNav();
+}
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentQ];
+  const correct = q.ans;
+  userAnswers[currentQ] = chosen;
+
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) btn.classList.add('correct');
+    else if (i === chosen && chosen !== correct) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  if (chosen === correct) {
+    score++;
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Correct! Well done.';
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Wrong. Correct answer: ${String.fromCharCode(65+correct)}) ${q.opts[correct]}`;
+  }
+
+  document.getElementById('score-live').textContent = `Score: ${score} / ${currentQ + 1}`;
+  updateQNav();
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display = 'block';
+  if (currentQ >= questions.length - 1) {
+    nextBtn.textContent = 'VIEW RESULTS →';
+  } else {
+    nextBtn.textContent = 'NEXT QUESTION →';
+  }
+}
+
+function nextQuestion() {
+  if (currentQ >= questions.length - 1) {
+    showResults();
+    return;
+  }
+  currentQ++;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+// RESULTS
+// ══════════════════════════════════════════════
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  const total = questions.length;
+  const wrong = total - score;
+  const pct = Math.round((score / total) * 100);
+
+  const card = document.getElementById('results-card');
+  card.style.setProperty('--uc', currentUnit.color);
+
+  // Emoji & title
+  let emoji, title, grade, gradeColor;
+  if (pct >= 90) { emoji='🏆'; title='Outstanding!'; grade='O (Outstanding)'; gradeColor='#00e676'; }
+  else if (pct >= 75) { emoji='🎯'; title='Excellent Work!'; grade='A (Excellent)'; gradeColor='#69f0ae'; }
+  else if (pct >= 60) { emoji='👍'; title='Good Job!'; grade='B (Good)'; gradeColor='#ffeb3b'; }
+  else if (pct >= 45) { emoji='📖'; title='Keep Studying!'; grade='C (Average)'; gradeColor='#ff9800'; }
+  else { emoji='💪'; title='Needs Improvement'; grade='D (Below Average)'; gradeColor='#ff5252'; }
+
+  document.getElementById('results-emoji').textContent = emoji;
+  document.getElementById('results-title').textContent = title;
+  document.getElementById('results-subtitle').textContent = currentUnit.title;
+  document.getElementById('score-display').textContent = pct + '%';
+  document.getElementById('score-display').style.color = currentUnit.color;
+  document.getElementById('res-correct').textContent = score;
+  document.getElementById('res-total').textContent = total;
+  document.getElementById('res-wrong').textContent = wrong;
+
+  const badge = document.getElementById('grade-badge');
+  badge.textContent = `Grade: ${grade}`;
+  badge.style.background = gradeColor + '22';
+  badge.style.border = `1px solid ${gradeColor}`;
+  badge.style.color = gradeColor;
+
+  // Review wrong answers
+  const review = document.getElementById('review-section');
+  const wrongQs = questions.filter((_, i) => userAnswers[i] !== null && userAnswers[i] !== questions[i].ans);
+  if (wrongQs.length === 0) {
+    review.innerHTML = '<div class="review-title">// ALL ANSWERS CORRECT! 🎉</div>';
+  } else {
+    let html = `<div class="review-title">// Review Wrong Answers (${wrong})</div>`;
+    questions.forEach((q, i) => {
+      if (userAnswers[i] !== null && userAnswers[i] !== q.ans) {
+        const ua = userAnswers[i];
+        const ca = q.ans;
+        html += `
+          <div class="review-item">
+            <div class="review-q">Q${i+1}. ${q.q}</div>
+            <div class="review-your">✗ Your answer: ${String.fromCharCode(65+ua)}) ${q.opts[ua]}</div>
+            <div class="review-correct">✓ Correct: ${String.fromCharCode(65+ca)}) ${q.opts[ca]}</div>
+          </div>`;
+      }
+    });
+    review.innerHTML = html;
+  }
+}
+
+function retryQuiz() {
+  startQuiz(currentUnit);
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+renderHome();
+</script>
+</body>
+</html>
